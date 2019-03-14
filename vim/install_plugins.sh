@@ -13,3 +13,8 @@ git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
 
 git clone --depth=1 https://github.com/vim-syntastic/syntastic.git ~/.vim/bundle/syntastic
 
+git clone https://github.com/xolox/vim-misc ~/.vim/bundle/vim-misc
+
+git clone https://github.com/xolox/vim-easytags ~/.vim/bundle/vim-easytags
+
+apt-get install exuberant-ctags
