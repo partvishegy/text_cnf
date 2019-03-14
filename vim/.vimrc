@@ -1,19 +1,14 @@
 set clipboard=unnamed
 
-
+" set <Leader> key
+:let mapleader=","
 " ==================================================
 " Some basic setup i will need to make a script of:
 
 " Permanently swap Esc and Caps on ubuntu
 " dconf write /org/gnome/desktop/input-sources/xkb-option \"['caps:swapescape']"
 
-" create folders and clone all the git repos i need for my plugins
-
 " ==================================================
-
-" Map Ctrl-Backspace to delete the previous word in insert mode.
-
-
 
 "" Quicksave command
 
@@ -99,9 +94,6 @@ set ignorecase
 set smartcase
 
 " Setup Pathogen to manage your plugins
-" mkdir -p ~/.vim/autoload ~/.vim/bundle
-" curl -so ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-" " Now you can install any plugin into a .vim/bundle/plugin-name/ folder
 call pathogen#infect()
 
 " ===========================================================================
@@ -196,4 +188,5 @@ inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 autocmd vimenter * NERDTree
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 
