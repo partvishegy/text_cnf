@@ -189,4 +189,5 @@ autocmd vimenter * NERDTree
 map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-
+" run vim-easytags updater upon file opening
+autocmd BufReadPost,FileReadPost * :UpdateTags
