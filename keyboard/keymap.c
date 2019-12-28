@@ -19,24 +19,32 @@ enum custom_keycodes {
   ADJUST,
 };
 
+enum {
+  TD_DOT_COMM = 0
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_DOT_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_COMM)
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Qwertz
  * ,-----------------------------------------.   .-----------------------------------------.
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |   |   Z  |   U  |   I  |   O  |   Ü  | Bksp |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   |   H  |   J  |   K  |   L  |   P  |Enter |
+ * |EsCAP|   A  |   S  |   D  |   F  |   G  |   |   H  |   J  |   K  |   L  |   P  |Enter |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
  * | Shift|   Y  |   X  |   C  |   V  |   B  |   |ACCENT|   N  |   M  |  .,  |  Ö   |  "   |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |   |Space |Raise | Left | Down |  Up  |Right |
+ * |Adjust| Ctrl | GUI  | Alt  |Lower |Space |   |Space |Raise | Left | Down |  Up  |Right |
  * `------------------------------------------   ------------------------------------------'
  */
 [_QWERTZ] = LAYOUT_ortho_4x12( \
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_MINS, KC_BSPC, \
-  KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_P,    KC_ENT, \
-  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    ACCENT,  KC_N,    KC_M,    KC_DOT,  KC_0,    KC_QUOT , \
-  ADJUST,  KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
+  KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_P,    KC_ENT, \
+  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    ACCENT,  KC_N,    KC_M,    TD(TD_DOT_COMM),  KC_0,    KC_QUOT , \
+  ADJUST,  KC_LCTL, KC_LGUI, KC_LALT, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
 /* ACCENT
@@ -108,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `------------------------------------------   ------------------------------------------'
  */
 [_ADJUST] =  LAYOUT_ortho_4x12( \
-  _______, RESET,   _______, _______, _______, _______, _______, LCTL(KC_PGDN), LCTL(KC_PGUP), _______, _______, KC_DEL, \
+  _______, RESET,   _______, _______, _______, _______, _______, LCTL(KC_PGUP), LCTL(KC_PGDN), _______, _______, KC_DEL, \
   _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, _______, \
   _______, QWERTZ,  _______, _______, _______, _______, _______, KC_PGDN, KC_PGUP, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
