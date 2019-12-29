@@ -21,10 +21,12 @@ enum custom_keycodes {
 
 enum {
   TD_DOT_COMM = 0
+  TD_SLSH_AST = 1
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_DOT_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_COMM)
+  [TD_SLSH_AST] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_KP_ASTERISK)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -33,57 +35,58 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------.   .-----------------------------------------.
  * | Tab  |   Q  |   W  |   E  |   R  |   T  |   |   Z  |   U  |   I  |   O  |   Ü  | Bksp |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |EsCAP|   A  |   S  |   D  |   F  |   G  |   |   H  |   J  |   K  |   L  |   P  |Enter |
+ * |EsCAPs|   A  |   S  |   D  |   F  |   G  |   |   H  |   J  |   K  |   L  |   P  |Enter |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Shift|   Y  |   X  |   C  |   V  |   B  |   |ACCENT|   N  |   M  |  .,  |  Ö   |  "   |
+ * |Adjust|   Y  |   X  |   C  |   V  |   B  |   |Raise |   N  |   M  |  .,  |  Ö   |  -*  |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |Adjust| Ctrl | GUI  | Alt  |Lower |Space |   |Space |Raise | Left | Down |  Up  |Right |
+ * |M_Shft| Ctrl | GUI  | Alt  |Lower |ACCENT|   |Space |lead?!| Left | Down |  Up  |Right |
  * `------------------------------------------   ------------------------------------------'
  */
 [_QWERTZ] = LAYOUT_ortho_4x12( \
-  KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_MINS, KC_BSPC, \
+  KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_MINS, KC_BSPC, \
   KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_P,    KC_ENT, \
-  KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    ACCENT,  KC_N,    KC_M,    TD(TD_DOT_COMM),  KC_0,    KC_QUOT , \
-  ADJUST,  KC_LCTL, KC_LGUI, KC_LALT, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
+  ADJUST,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    RAISE,   KC_N,    KC_M,    TD(TD_DOT_COMM),  KC_0,    TD_SLSH_AST, \
+  OSM(MOD_LSFT),  KC_LCTL, KC_LGUI, KC_LALT, LOWER,   ACCENT,  KC_SPC,  ________,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
 /* ACCENT
  * ,-----------------------------------------.   .-----------------------------------------.
- * | Tab  |      |      |   É  |   [  |  ]   |   |      |   Ú  |   Í  |   Ó  |   Ű  | Bksp |
+ * | Tab  |      |      |   É  |      |      |   |      |   Ú  |   Í  |   Ó  |   Ű  | Bksp |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Esc  |   Á  |      |      |   (  |  )   |   |      |      |      |      |      |      |
+ * |CAPEsc|   Á  |      |      |AltTab|      |   |      |   (  |  )   |      |      |      |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Shift|      |      |      |   {  |  }   |   | hold |      |      |   Ő  |      |      |
+ * | Shift|      |      |      |      |      |   |      |   [  |  ]   |   Ő  |      |      |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |Adjust| Ctrl | Alt  | GUI  |Lower |Space |   |Space |Raise | Left | Down |  Up  |Right |
+ * |Adjust| Ctrl | Alt  | GUI  |Lower | hold |   |Space |   {  |  }   | Down |  Up  |Right |
  * `------------------------------------------   ------------------------------------------'
+ * TODO: create macros for parentheses open-close-stepin for double tap on open
  */
 
 [_ACCENT] = LAYOUT_ortho_4x12( \
-  KC_TAB,  _______, _______, KC_SCLN, _______, _______, _______, KC_RBRC, KC_NUBS, KC_EQL, KC_NUHS, KC_BSPC, \
-  KC_ESC,  KC_QUOT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  KC_LSFT, _______, _______, _______, _______, _______, _______, _______, _______, KC_LBRC, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
+  KC_TAB,  _______, _______, KC_SCLN, _______,      _______, _______, KC_RBRC,       KC_NUBS,       KC_EQL, KC_NUHS, KC_BSPC, \
+  KC_ESC,  KC_QUOT, _______, _______, LALT(KC_TAB), _______, _______, KC_LPRN,       KC_RPRN,       _______, _______, _______, \
+  KC_LSFT, _______, _______, _______, _______,      _______, _______, KC_LBRC,       KC_RBRC,       _______, _______, _______, \
+  _______, _______, _______, _______, _______,      _______, _______, LSFT(KC_LBRC), LSFT(KC_RBRC), _______, _______, _______ \
 ),
 
 
 /* Lower
  * ,------------------------------------------   ------------------------------------------.
- * |      |      |   1  |   2  |   3  |      |   |   ^  |   &  |   *  |   (  |   )  | Bksp |
+ * |      |      |   1  |   2  |   3  |      |   |  F1  |  F2  |  F3  |   (  |   )  | Bksp |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |      |      |   4  |   5  |   6  |      |   |  F6  |   _  |   +  |      |   \  |  |   |
+ * |CAPEsc|      |   4  |   5  |   6  |      |   |  F4  |  F5  |  F6  |      |   \  |  |   |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |      |      |   7  |   8  |   9  |      |   |  F12 |ISO ~ |ISO | |      |      |Enter |
+ * |      |      |   7  |   8  |   9  |      |   |  F7  |  F8  |  F9  |  Next|      |Enter |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |      |      |      |   0  |      |      |   |      |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |   0  |      |      |   |  F10 |  F11 |  F12 | Vol- | Vol+ | Play |
  * `------------------------------------------   ------------------------------------------'
  */
 
 [_LOWER] = LAYOUT_ortho_4x12( \
-  KC_TILD, KC_EXLM, KC_1,    KC_2,   KC_3,  KC_PERC, KC_CIRC, KC_AMPR,     KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC, \
-  KC_DEL,  KC_F1,   KC_4,    KC_5,   KC_6,  KC_F5,   KC_F6,   KC_UNDS,     KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  BL_STEP, KC_F7,   KC_7,    KC_8,   KC_9,  KC_F11,  KC_F12,  S(KC_NUHS),  S(KC_NUBS),_______, _______, _______, \
-  _______, _______, _______, KC_GRV, _______, _______, _______, _______,   KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
+  KC_TILD, KC_EXLM, KC_1,    KC_2,   KC_3,  _______,   KC_F1,  KC_F2,  KC_F3, KC_LPRN, KC_RPRN, KC_BSPC, \
+  KC_ESC,  KC_F1,   KC_4,    KC_5,   KC_6,  _______,   KC_F4,  KC_F5,  KC_F6, KC_LCBR, KC_RCBR, KC_PIPE, \
+  BL_STEP, KC_F7,   KC_7,    KC_8,   KC_9,  _______,   KC_F7,  KC_F8,  KC_F9, KC_MNXT, _______, _______, \
+  _______, _______, _______, KC_GRV, _______, _______, KC_F10, KC_F11, KC_F12, KC_VOLD, KC_VOLU, KC_MPLY \
 ),
 
 /* Raise
