@@ -20,12 +20,12 @@ enum custom_keycodes {
 };
 
 enum {
-  TD_DOT_COMM = 0
+  TD_DOT_COMM = 0,
   TD_SLSH_AST = 1
 };
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_DOT_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_COMM)
+  [TD_DOT_COMM] = ACTION_TAP_DANCE_DOUBLE(KC_DOT, KC_COMM),
   [TD_SLSH_AST] = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_KP_ASTERISK)
 };
 
@@ -39,23 +39,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
  * |Adjust|   Y  |   X  |   C  |   V  |   B  |   |Raise |   N  |   M  |  .,  |  Ö   |  -*  |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |M_Shft| Ctrl | GUI  | Alt  |Lower |ACCENT|   |Space |lead?!| Left | Down |  Up  |Right |
+ * |M_Shft| Ctrl | GUI  | Alt  |Lower |ACCENT|   |Space | LEAD | Left | Down |  Up  |Right |
  * `------------------------------------------   ------------------------------------------'
  */
 [_QWERTZ] = LAYOUT_ortho_4x12( \
   KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_MINS, KC_BSPC, \
   KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_P,    KC_ENT, \
-  ADJUST,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    RAISE,   KC_N,    KC_M,    TD(TD_DOT_COMM),  KC_0,    TD_SLSH_AST, \
-  OSM(MOD_LSFT),  KC_LCTL, KC_LGUI, KC_LALT, LOWER,   ACCENT,  KC_SPC,  ________,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
+  ADJUST,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    RAISE,   KC_N,    KC_M,    TD(TD_DOT_COMM),  KC_0,    TD(TD_SLSH_AST), \
+  OSM(MOD_LSFT),  KC_LCTL, KC_LGUI, KC_LALT, LOWER,   ACCENT,  KC_SPC,  KC_LEAD,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
 /* ACCENT
  * ,-----------------------------------------.   .-----------------------------------------.
  * | Tab  |      |      |   É  |      |      |   |      |   Ú  |   Í  |   Ó  |   Ű  | Bksp |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * |CAPEsc|   Á  |      |      |AltTab|      |   |      |   (  |  )   |      |      |      |
+ * |CAPEsc|   Á  |      | Alt  |  Tab |      |   |      |   (  |  )   |      |      |      |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
- * | Shift|      |      |      |      |      |   |      |   [  |  ]   |   Ő  |      |      |
+ * | Shift|      |      |      |      |      |   |      |   [  |  ]   |      |   Ő  |      |
  * |------+------+------+------+------+------|   |------+------+------+------+------+------|
  * |Adjust| Ctrl | Alt  | GUI  |Lower | hold |   |Space |   {  |  }   | Down |  Up  |Right |
  * `------------------------------------------   ------------------------------------------'
@@ -63,10 +63,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 [_ACCENT] = LAYOUT_ortho_4x12( \
-  KC_TAB,  _______, _______, KC_SCLN, _______,      _______, _______, KC_RBRC,       KC_NUBS,       KC_EQL, KC_NUHS, KC_BSPC, \
-  KC_ESC,  KC_QUOT, _______, _______, LALT(KC_TAB), _______, _______, KC_LPRN,       KC_RPRN,       _______, _______, _______, \
-  KC_LSFT, _______, _______, _______, _______,      _______, _______, KC_LBRC,       KC_RBRC,       _______, _______, _______, \
-  _______, _______, _______, _______, _______,      _______, _______, LSFT(KC_LBRC), LSFT(KC_RBRC), _______, _______, _______ \
+  KC_TAB,  _______, _______, KC_SCLN, _______,      _______, _______, KC_RBRC,    KC_NUBS,    KC_EQL, KC_NUHS, KC_BSPC, \
+  KC_ESC,  KC_QUOT, _______, KC_LALT, KC_TAB, _______, _______, LSFT(KC_8), LSFT(KC_9), _______, _______, _______, \
+  KC_LSFT, _______, _______, _______, _______,      _______, _______, RALT(KC_F), RALT(KC_G), _______, KC_LBRC, _______, \
+  _______, _______, _______, _______, _______,      _______, _______, RALT(KC_B), RALT(KC_N), _______, _______, _______ \
 ),
 
 
@@ -183,4 +183,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   return true;
+}
+
+LEADER_EXTERNS();
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+    // Replace the sequences below with your own sequences.
+    SEQ_ONE_KEY(KC_T) {
+      SEND_STRING(SS_LCTRL(SS_LSFT("t")));
+    }
+    SEQ_ONE_KEY(KC_C) {
+      SEND_STRING(SS_LCTRL(SS_LSFT("c")));
+    }
+    SEQ_ONE_KEY(KC_V) {
+      SEND_STRING(SS_LCTRL(SS_LSFT("v")));
+    }
+/*    SEQ_TWO_KEYS(KC_N, KC_T) {
+ *     // When I press KC_LEAD and then N followed by T, this sends CTRL + T
+ *    SEND_STRING(SS_LCTRL("t"));
+ * }
+ */
+  }
 }
